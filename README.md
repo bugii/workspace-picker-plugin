@@ -1,4 +1,4 @@
-# workspace-picker.wez
+# Workspace Picker Plugin for Wezterm
 
 A comprehensive workspace switcher plugin for [WezTerm](https://wezfurlong.org/wezterm/) that integrates with static workspace configurations, Git worktrees, Zoxide directory tracking, and existing WezTerm workspaces.
 
@@ -6,31 +6,11 @@ A comprehensive workspace switcher plugin for [WezTerm](https://wezfurlong.org/w
 
 - 🔍 **Fuzzy Search**: Quickly find and switch between workspaces
 - 📁 **Directory Integration**: Direct navigation to configured directories
-- 🌳 **Git Worktree Support**: Automatic discovery of Git worktrees
+- 🌳 **Git Worktree Support**: Integration of git worktrees (see examples below)
 - ⚡ **Zoxide Integration**: Access frequently visited directories
 - 🖥️ **Existing Workspace Support**: Switch between active WezTerm workspaces
 - 🎨 **Custom Pane Layouts**: Define complex tab and pane configurations
 - ⌨️ **Keyboard Shortcuts**: Bind to custom key combinations
-
-## Installation
-
-### Via luarocks (recommended)
-
-```bash
-luarocks install workspace-picker
-```
-
-### Manual Installation
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/workspace-picker.git
-   ```
-
-2. Copy the module to your WezTerm configuration:
-   ```bash
-   cp workspace-picker/lib/workspace-picker.lua ~/.config/wezterm/
-   ```
 
 ## Usage
 
@@ -39,10 +19,10 @@ luarocks install workspace-picker
 Add to your `wezterm.lua`:
 
 ```lua
-local workspace_picker = require("workspace-picker")
+local workspace_switcher = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
 
 -- Configure workspaces
-workspace_picker.setup({
+workspace_switcher.setup({
   { path = "~/projects/my-project", type = "directory" },
   { path = "~/projects/worktrees", type = "worktreeroot" },
 })
@@ -54,9 +34,9 @@ workspace_picker.apply_to_config(config)
 ### Advanced Configuration
 
 ```lua
-local workspace_picker = require("workspace-picker")
+local workspace_switcher = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
 
-workspace_picker.setup({
+workspace_switcher.setup({
   -- Static directory
   {
     path = "~/dotfiles",
@@ -97,19 +77,15 @@ workspace_picker.setup({
 })
 
 -- Apply to config with custom keybinding
-workspace_picker.apply_to_config(config, "w", "CTRL|SHIFT")
+workspace_picker.apply_to_config(config, "f", "CTRL")
 ```
 
 ### Direct Workspace Switching
 
+If you have Project that you often want to switch to, you can use this helper method to bind it to a wezterm shortcut directly in the wezterm config.
+
 ```lua
--- Direct keybindings for specific workspaces
 config.keys = {
-  {
-    key = "n",
-    mods = "LEADER",
-    action = workspace_picker.switch_to_workspace("~/Notes")
-  },
   {
     key = "d",
     mods = "LEADER",
@@ -122,37 +98,37 @@ config.keys = {
 
 ### Workspace Entry
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `path` | string | Yes | Path to directory or worktree root |
-| `type` | string | No | `"directory"` or `"worktreeroot"` (default: `"directory"`) |
-| `tabs` | table | No | Array of tab configurations |
+| Field  | Type   | Required | Description                                                |
+| ------ | ------ | -------- | ---------------------------------------------------------- |
+| `path` | string | Yes      | Path to directory or worktree root                         |
+| `type` | string | No       | `"directory"` or `"worktreeroot"` (default: `"directory"`) |
+| `tabs` | table  | No       | Array of tab configurations                                |
 
 ### Tab Configuration
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | No | Tab title |
-| `direction` | string | No | Split direction: `"Right"` or `"Bottom"` (default: `"Right"`) |
-| `panes` | table | No | Array of pane configurations |
+| Field       | Type   | Required | Description                                                                    |
+| ----------- | ------ | -------- | ------------------------------------------------------------------------------ |
+| `name`      | string | No       | Tab title                                                                      |
+| `direction` | string | No       | Split direction of (child) panes: `"Right"` or `"Bottom"` (default: `"Right"`) |
+| `panes`     | table  | No       | Array of pane configurations                                                   |
 
 ### Pane Configuration
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | No | Pane name (for identification) |
-| `command` | string | No | Command to run in pane |
-| `direction` | string | No | Split direction for child panes |
-| `panes` | table | No | Child pane configurations |
+| Field       | Type   | Required | Description                     |
+| ----------- | ------ | -------- | ------------------------------- |
+| `name`      | string | No       | Pane name (for identification)  |
+| `command`   | string | No       | Command to run in pane          |
+| `direction` | string | No       | Split direction for child panes |
+| `panes`     | table  | No       | Child pane configurations       |
 
 ### Plugin Options
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `icons.directory` | string | `""` | Icon for directory workspaces |
-| `icons.worktree` | string | `"󰊢"` | Icon for worktree workspaces |
-| `icons.zoxide` | string | `""` | Icon for zoxide workspaces |
-| `icons.workspace` | string | `""` | Icon for existing workspaces |
+| Field             | Type   | Default | Description                   |
+| ----------------- | ------ | ------- | ----------------------------- |
+| `icons.directory` | string | `""`   | Icon for directory workspaces |
+| `icons.worktree`  | string | `"󰊢"`   | Icon for worktree workspaces  |
+| `icons.zoxide`    | string | `""`   | Icon for zoxide workspaces    |
+| `icons.workspace` | string | `""`   | Icon for existing workspaces  |
 
 ## Requirements
 
@@ -160,6 +136,3 @@ config.keys = {
 - Git (for worktree support)
 - Zoxide (optional, for directory tracking)
 
-## License
-
-MIT

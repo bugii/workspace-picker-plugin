@@ -451,11 +451,6 @@ end
 --- @param key string|nil: Key to bind (default: "f")
 --- @param mods string|nil: Modifiers for keybinding (default: "LEADER")
 function M.apply_to_config(config, key, mods)
-  if not config or type(config) ~= "table" then
-    wezterm.log_error("Invalid config: expected table")
-    return
-  end
-
   config.keys = config.keys or {}
   table.insert(config.keys, {
     key = key or "f",
