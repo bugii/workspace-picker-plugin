@@ -133,3 +133,12 @@ config.keys = {
 - WezTerm
 - Git (for worktree support)
 - Zoxide (optional, for directory tracking)
+
+## Inspiration
+
+This plugin is inspired by many other amazing projects. Special thank you to:
+
+- [tmuxinator](https://github.com/tmuxinator/tmuxinator)
+- [sesh](https://github.com/joshmedeski/sesh)
+- [smart_workspace_switcher](https://github.com/MLFlexer/smart_workspace_switcher.wezterm)
+- [workspacesionizer](https://github.com/vieitesss/workspacesionizer.wezterm)
