@@ -2,10 +2,13 @@
 
 A comprehensive workspace switcher plugin for [WezTerm](https://wezfurlong.org/wezterm/) that integrates with static workspace configurations, Git worktrees, Zoxide directory tracking, and existing WezTerm workspaces.
 
+## Preview
+
+![screenshot](./screenshot.png)
+
 ## Features
 
 - 🔍 **Fuzzy Search**: Quickly find and switch between workspaces
-- 📁 **Directory Integration**: Direct navigation to configured directories
 - 🌳 **Git Worktree Support**: Integration of git worktrees (see examples below)
 - ⚡ **Zoxide Integration**: Access frequently visited directories
 - 🖥️ **Existing Workspace Support**: Switch between active WezTerm workspaces
@@ -16,7 +19,11 @@ A comprehensive workspace switcher plugin for [WezTerm](https://wezfurlong.org/w
 
 ### Basic Setup
 
-Add to your `wezterm.lua`:
+There are two main types of projects: "directory" and "worktreeroot".
+When chosing worktreeroot, make sure that the git repository at this path actually contains git worktrees. By picking "worktreeroot" you ensure two things:
+
+1. all git worktrees are listed in the picker
+1. the specified tabs/panes layout will be used for all the available worktrees.
 
 ```lua
 local workspace_switcher = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
@@ -121,18 +128,8 @@ config.keys = {
 | `direction` | string | No       | Split direction for child panes |
 | `panes`     | table  | No       | Child pane configurations       |
 
-### Plugin Options
-
-| Field             | Type   | Default | Description                   |
-| ----------------- | ------ | ------- | ----------------------------- |
-| `icons.directory` | string | `""`   | Icon for directory workspaces |
-| `icons.worktree`  | string | `"󰊢"`   | Icon for worktree workspaces  |
-| `icons.zoxide`    | string | `""`   | Icon for zoxide workspaces    |
-| `icons.workspace` | string | `""`   | Icon for existing workspaces  |
-
 ## Requirements
 
 - WezTerm
 - Git (for worktree support)
 - Zoxide (optional, for directory tracking)
-
