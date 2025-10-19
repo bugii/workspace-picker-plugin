@@ -87,7 +87,7 @@ local function get_config_entries()
           for line in output:gmatch("[^\r\n]+") do
             if line:match("^worktree ") then
               local worktree_path = line:match("^worktree (.+)$")
-              if worktree_path then
+              if worktree_path and worktree_path ~= expanded_path then
                 table.insert(entries, {
                   id = worktree_path,
                   label = format_workspace_label(worktree_path, options.icons.worktree),
@@ -333,12 +333,10 @@ end
 --- @return table: WezTerm action callback
 function M.switch_to_workspace(path)
   return wezterm.action_callback(function(window, pane)
-    print("here")
     local expanded_path = expand_home_path(path)
 
     -- Look for configured workspace
     local all_choices = get_all_workspace_choices()
-    print(all_choices)
     for _, choice in ipairs(all_choices) do
       if choice.id == expanded_path then
         create_or_switch_workspace(choice, window, pane)
