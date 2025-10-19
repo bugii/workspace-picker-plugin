@@ -459,17 +459,4 @@ function M.apply_to_config(config, key, mods)
   })
 end
 
---- Get current configuration for debugging
---- @return table: Current user configuration
-function M.get_config()
-  return {
-    user_config = user_config,
-    options = options,
-  }
-end
-
--- Export utility functions for advanced usage
-M.expand_home_path = expand_home_path
-M.run_command = run_command
-
 return M
