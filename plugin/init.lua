@@ -14,10 +14,10 @@ local user_config = {}
 local default_options = {
   --- Default icons for different workspace types
   icons = {
-    directory = "",
-    worktree = "󰊢",
-    zoxide = "",
-    workspace = "",
+    directory = "📁",
+    worktree = "🌳",
+    zoxide = "⚡",
+    workspace = "🖥️",
   },
 }
 
