@@ -48,7 +48,7 @@ workspace_switcher.setup({
   {
     path = "~/dotfiles",
     tabs = {
-      { name = "editor", panes = { { name = "vim", command = "vim" } } },
+      { name = "editor", command = "vim" },
       { name = "terminal" },
     }
   },

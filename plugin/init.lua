@@ -46,7 +46,7 @@ end
 local function run_command(cmd)
   if not cmd or type(cmd) ~= "string" then return "", "Invalid command: expected string" end
 
-  local args = { os.getenv("SHELL"), "-c", cmd }
+  local args = { os.getenv("SHELL"), "-l", "-c", cmd }
   if is_windows then args = { "cmd", "/c", cmd } end
 
   local ok, stdout, stderr = wezterm.run_child_process(args)
