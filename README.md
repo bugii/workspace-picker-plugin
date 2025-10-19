@@ -48,7 +48,7 @@ workspace_switcher.setup({
   {
     path = "~/dotfiles",
     tabs = {
-      { name = "editor", panes = { { command = "vim" } } },
+      { name = "editor", panes = { { name = "vim", command = "vim" } } },
       { name = "terminal" },
     }
   },
@@ -59,15 +59,15 @@ workspace_switcher.setup({
     type = "worktreeroot",
     tabs = {
       {
-        name = "development",
+        name = "my-repo",
         direction = "Bottom",
         panes = {
-          { command = "vim" },
+          { name = "editor", command = "vim" },
           {
             direction = "Right",
             panes = {
-              { command = "npm run dev" },
-              { command = "npm run test" }
+              { name = "dev", command = "npm run dev" },
+              { name = "test", command = "npm run test" }
             }
           }
         }
@@ -90,6 +90,7 @@ workspace_picker.apply_to_config(config, "f", "CTRL")
 ### Direct Workspace Switching
 
 If you have Project that you often want to switch to, you can use this helper method to bind it to a wezterm shortcut directly in the wezterm config.
+To make it use the proper tabs/panes configuration, ensure that the path you pass into the function matches with the path specified in the config.
 
 ```lua
 config.keys = {
