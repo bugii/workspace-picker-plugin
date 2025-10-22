@@ -26,10 +26,10 @@ When chosing worktreeroot, make sure that the git repository at this path actual
 1. the specified tabs/panes layout will be used for all the available worktrees.
 
 ```lua
-local workspace_switcher = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
+local workspace_picker = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
 
 -- Configure workspaces
-workspace_switcher.setup({
+workspace_picker.setup({
   { path = "~/projects/my-project", type = "directory" },
   { path = "~/projects/worktrees", type = "worktreeroot" },
 })
@@ -41,9 +41,9 @@ workspace_picker.apply_to_config(config)
 ### Advanced Configuration
 
 ```lua
-local workspace_switcher = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
+local workspace_picker = wezterm.plugin.require("https://github.com/bugii/workspace-picker-plugin")
 
-workspace_switcher.setup({
+workspace_picker.setup({
   -- Static directory
   {
     path = "~/dotfiles",
