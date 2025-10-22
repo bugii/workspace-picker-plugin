@@ -278,6 +278,10 @@ local function create_tabs_with_panes(window, tabs)
     local first_pane = panes[1]
     create_pane_splits(first_pane, tab_config)
   end
+
+  -- focus on the first tab again once done
+  local first_tab = window:tabs()[1]
+  first_tab:activate()
 end
 
 --- Create or switch to a workspace with proper configuration
