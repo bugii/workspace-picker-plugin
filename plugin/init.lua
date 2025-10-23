@@ -186,18 +186,46 @@ local function get_all_workspace_choices()
   return all_items
 end
 
---- Generate split fractions for pane layout
---- @param n number: Number of panes to split
---- @return table: Array of fraction values for splits
-local function generate_split_fractions(n)
-  if n < 2 then return {} end
+--- Compute sequential split sizes using weight logic.
+--- Each pane may define `size` as a positive number weight. Omitted => weight 1.
+--- Final space is distributed proportionally to weights.
+--- @param panes table
+--- @return table: size values for successive split calls
+local function compute_split_sizes(panes)
+  if not panes or #panes < 2 then return {} end
 
-  local fractions = {}
-  for i = 2, n do
-    -- Insert at beginning to maintain correct order
-    table.insert(fractions, 1, (i - 1) / i)
+  local weights = {}
+  local total = 0
+  for i, p in ipairs(panes) do
+    local w = p.size
+    if type(w) ~= "number" or w <= 0 then
+      if w ~= nil then wezterm.log_error("Invalid pane size (must be positive number weight): index " .. i) end
+      w = 1
+    end
+    weights[i] = w
+    total = total + w
   end
-  return fractions
+
+  -- Convert weights to final fractions
+  local fractions = {}
+  for i, w in ipairs(weights) do
+    fractions[i] = w / total
+  end
+
+  -- Convert target final fractions to sequential split sizes.
+  -- For pane i (i>=2): size = tail_sum(i) / tail_sum(i-1)
+  local sizes = {}
+  for i = 2, #fractions do
+    local tail = 0
+    for k = i, #fractions do
+      tail = tail + fractions[k]
+    end
+    local prev_tail = tail + fractions[i - 1]
+    local split_size = prev_tail > 0 and (tail / prev_tail) or 0.5
+    table.insert(sizes, split_size)
+  end
+
+  return sizes
 end
 
 --- Recursively create pane splits based on configuration
@@ -216,7 +244,7 @@ local function create_pane_splits(mux_pane, node)
     return
   end
 
-  local fractions = generate_split_fractions(#node.panes)
+  local fractions = compute_split_sizes(node.panes)
   local current_pane = mux_pane
 
   for i, pane_config in ipairs(node.panes) do
